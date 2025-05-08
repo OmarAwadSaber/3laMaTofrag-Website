@@ -33,7 +33,7 @@ class Task(models.Model):
     due_date = models.DateTimeField()
     priority = models.CharField(max_length=20, choices=Priority)
     category = models.CharField(max_length=20, choices=Category)
-    Tags = models.JSONField()
+    Tags = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.title
