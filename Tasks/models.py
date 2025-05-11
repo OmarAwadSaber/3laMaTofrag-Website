@@ -5,7 +5,6 @@ from django.conf import settings
 # Create your models here.
 
 class customUser(AbstractUser):
-    phone_number = models.CharField(max_length=15, default='')
     isAdmin = models.BooleanField(default=False)
     pass
 

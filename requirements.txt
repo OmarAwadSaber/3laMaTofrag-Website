@@ -1,0 +1,6 @@
+http://omarawadsaber.pythonanywhere.com/api/token/   (Login(post))
+http://omarawadsaber.pythonanywhere.com/api/token/refresh/   (Refresh token(post))
+http://omarawadsaber.pythonanywhere.com/api/tasks/   (Get all tasks(get), add task (post))
+http://omarawadsaber.pythonanywhere.com/api/tasks/<task_id>/   (Get task by ID, update task (put), delete task (delete))
+http://omarawadsaber.pythonanywhere.com/api/users/register/   (Register new user(post))
+http://omarawadsaber.pythonanywhere.com/api/users/me/   (Get user info(get), update user info(put))

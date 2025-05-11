@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Task, customUser
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.hashers import make_password
 
 
@@ -29,7 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = customUser
-        fields = ('id', 'username', 'email', 'phone_number', 'isAdmin', 'password', 'password2')
+        fields = ('id', 'username', 'email', 'isAdmin', 'password', 'password2')
         extra_kwargs = {
             'password': {'write_only': True},
             'password2': {'write_only': True},
