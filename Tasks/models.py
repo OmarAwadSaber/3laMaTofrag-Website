@@ -6,9 +6,7 @@ from django.conf import settings
 
 class customUser(AbstractUser):
     isAdmin = models.BooleanField(default=False)
-    pass
-
-
+    profilePhoto = models.ImageField(upload_to='profile_photos', null=True, blank=True, default='profile_photos/default.jpg')
 
 Priority = (
     ('high', 'high'),
@@ -33,6 +31,7 @@ class Task(models.Model):
     priority = models.CharField(max_length=20, choices=Priority)
     category = models.CharField(max_length=20, choices=Category)
     Tags = models.TextField(null=True, blank=True)
+    isCompleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

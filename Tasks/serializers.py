@@ -23,28 +23,18 @@ class TaskSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = customUser
-        fields = ('id', 'username', 'email', 'isAdmin', 'password', 'password2')
+        fields = ('id', 'username', 'email', 'profilePhoto', 'isAdmin', 'password')
         extra_kwargs = {
             'password': {'write_only': True},
-            'password2': {'write_only': True},
             'isAdmin': {'read_only': True}  # Don't let users self-assign admin status
         }
 
-    def validate(self, data):
-        if data['password'] != data['password2']:
-            raise serializers.ValidationError({"password": "Password fields didn't match."})
-        return data
 
     def create(self, validated_data):
-        # Remove password2 before creating user
-        validated_data.pop('password2')
-        
         # Hash the password properly
         validated_data['password'] = make_password(validated_data['password'])
-        
         return customUser.objects.create(**validated_data)

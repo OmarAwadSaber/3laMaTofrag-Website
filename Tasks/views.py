@@ -6,9 +6,25 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MyTokenObtainPairSerializer
+from  rest_framework import generics
+from django.contrib.auth.hashers import make_password
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
+
+class UserRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+    def perform_update(self, serializer):
+        validated_data = serializer.validated_data
+        if 'password' in validated_data:
+            validated_data['password'] = make_password(validated_data['password'])
+        serializer.save(**validated_data)
 
 
 class TaskListCreateView(generics.ListCreateAPIView):
@@ -33,9 +49,14 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
 
-class CurrentUserView(APIView):
+    
+
+class ProfilePhotoUpdateView(generics.UpdateAPIView):
+    serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+    def get_object(self):
+        return self.request.user
+
+    def perform_update(self, serializer):
+        serializer.save()
